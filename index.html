@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-uuO9pe5XwmopU8WL4+sJ3/leVH+d9L21szxM17YPnZE='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src https://pagespeedonline.googleapis.com; base-uri 'none'; form-action 'none'">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free website check | Casim Bahadar</title>
+<meta name="description" content="Check how a website works on a phone. Get a plain-language report on speed, accessibility and search basics, with the three things to fix first.">
+<meta name="theme-color" content="#F7F5FB">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect x=%275%27 y=%271%27 width=%2710%27 height=%2710%27 rx=%272%27 fill=%27%23A993E4%27/%3E%3Crect x=%271%27 y=%275%27 width=%2710%27 height=%2710%27 rx=%272%27 fill=%27%235A3DB8%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&display=swap">
+<style>
+
+
+/* Tokens. Spacing sits on a 4px scale, radii on three sizes. */
+:root {
+  --paper: #F7F5FB; --mist: #EDE8F7; --lav: #D8CCF3; --violet: #5A3DB8; --violet-deep: #432C93;
+  --ink: #221B35; --slate: #5F5873; --line: #DDD5EE; --error: #A32A3C; --error-bg: #FBEAEE; --changed-bg: #FFF6DB;
+  --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s6: 1.5rem; --s8: 2rem; --s12: 3rem; --s16: 4rem;
+  --r-sm: 4px; --r-md: 12px; --r-pill: 999px;
+  --gutter: var(--s4);
+  --font: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: light;
+}
+@media (min-width: 40rem) { :root { --gutter: var(--s8); } }
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font);
+  font-size: 1rem; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+@media (min-width: 40rem) { body { font-size: 1.0625rem; } }
+h1, h2, h3, h4 { margin: 0 0 var(--s3); line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
+h1 { font-size: clamp(2rem, 1.4rem + 3vw, 3.2rem); font-weight: 850; letter-spacing: -0.035em; margin-bottom: var(--s4); }
+h2 { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem); font-weight: 800; margin: 0; }
+h3 { font-size: 1.2rem; font-weight: 750; margin-top: var(--s12); }
+h4 { font-size: 1.05rem; font-weight: 750; margin-bottom: var(--s1); }
+p { margin: 0 0 var(--s4); max-width: 64ch; }
+a { color: var(--violet); text-decoration-thickness: 1.5px; text-underline-offset: 0.2em; }
+@media (hover: hover) { a:hover { color: var(--violet-deep); } }
+:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: var(--r-sm); }
+.wrap { max-width: 62rem; margin-inline: auto; padding-inline: var(--gutter); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.topbar { border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); flex-wrap: wrap; padding-block: var(--s4); }
+.wordmark { display: inline-flex; align-items: center; gap: var(--s3); min-height: 2.75rem; color: var(--ink); font-weight: 800; letter-spacing: -0.02em; text-decoration: none; }
+.mark { width: 1rem; height: 1rem; border-radius: var(--r-sm); background: var(--violet); box-shadow: 4px -4px 0 -1px #A993E4; margin-top: var(--s1); }
+.demo-flag { font-size: 0.9375rem; font-weight: 650; color: var(--slate); }
+
+.intro { padding-block: var(--s8) var(--s6); }
+.lede { font-size: 1.125rem; }
+.privacy { max-width: 44rem; margin: 0; padding: var(--s4); background: var(--mist); border-radius: var(--r-md); }
+.privacy p { margin: 0; }
+.privacy strong { font-weight: 750; }
+
+.step { padding-block: var(--s8); border-top: 1px solid var(--line); }
+.step-head { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s4); }
+.step-num { flex: none; display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: var(--r-pill); background: var(--ink); color: var(--paper); font-weight: 800; font-size: 1rem; }
+.muted { color: var(--slate); }
+.small { font-size: 0.9375rem; }
+
+/* One button system. Groups decide width: full width stacked on phones, equal widths in a row. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 3rem; padding: var(--s3) var(--s6);
+  border: 2px solid transparent; border-radius: var(--r-pill);
+  font: inherit; font-size: 1rem; font-weight: 650; line-height: 1.2; text-decoration: none; cursor: pointer;
+}
+.btn-primary { background: var(--violet); color: #fff; }
+.btn-quiet { border-color: var(--ink); color: var(--ink); background: transparent; }
+@media (hover: hover) {
+  .btn-primary:hover { background: var(--violet-deep); color: #fff; }
+  .btn-quiet:hover { background: var(--ink); color: var(--paper); }
+}
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.actions { display: flex; flex-direction: column; gap: var(--s3); margin-block: var(--s4); }
+.actions > .btn { width: 100%; }
+@media (min-width: 40rem) {
+  .actions { flex-direction: row; flex-wrap: wrap; }
+  .actions > .btn { flex: 1 1 0; width: auto; max-width: 16rem; }
+}
+
+details { margin-top: var(--s4); }
+summary { cursor: pointer; font-weight: 650; color: var(--violet); min-height: 2.75rem; display: flex; align-items: center; }
+textarea { width: 100%; min-height: 10rem; font: 1rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; padding: var(--s3); border: 1.5px solid var(--slate); border-radius: var(--r-md); background: #fff; color: var(--ink); }
+label.block { display: block; font-weight: 650; margin-bottom: var(--s2); }
+select { font: inherit; font-size: 1rem; min-height: 2.75rem; padding: var(--s1) var(--s2); border: 1.5px solid var(--slate); border-radius: var(--r-md); background: #fff; color: var(--ink); max-width: 100%; }
+input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; accent-color: var(--violet); margin: 0; flex: none; }
+
+.status { font-weight: 650; margin: var(--s3) 0 0; }
+.alert { margin-top: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-md); background: var(--error-bg); color: var(--error); font-weight: 650; border: 1.5px solid var(--error); }
+.info { margin-top: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-md); background: var(--mist); }
+.alert:empty, .info:empty { display: none; }
+.stale { margin: 0 0 var(--s6); padding: var(--s3) var(--s4); border-radius: var(--r-md); background: var(--changed-bg); border: 1.5px solid #8A6A12; font-weight: 650; }
+
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: var(--r-md); background: #fff; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }
+th, td { text-align: left; padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--mist); font-weight: 700; white-space: nowrap; }
+tr:last-child td, tr:last-child th { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.check { display: flex; align-items: center; gap: var(--s2); min-height: 2.75rem; cursor: pointer; }
+.map-table td { vertical-align: middle; }
+.ws { display: inline-block; min-width: 0.6em; color: var(--violet); font-weight: 700; }
+.empty-val { color: var(--slate); font-style: italic; }
+
+fieldset { border: 0; padding: 0; margin: var(--s6) 0 0; }
+legend { font-weight: 700; margin-bottom: var(--s2); padding: 0; }
+.radio { display: flex; align-items: center; gap: var(--s3); min-height: 2.75rem; }
+
+.summary-line { font-size: 1.125rem; font-weight: 600; max-width: 60ch; }
+.summary-line b { font-weight: 850; }
+.jump { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); margin: 0; padding: 0; list-style: none; }
+.jump a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 650; }
+
+.cellmap { margin: 0; }
+.cellmap svg { display: block; max-width: 100%; height: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s6); margin: var(--s3) 0 0; padding: 0; list-style: none; font-size: 0.9375rem; }
+.legend li { display: flex; align-items: center; gap: var(--s2); }
+.sw { width: 1rem; height: 1rem; border-radius: var(--r-sm); display: inline-block; }
+.sw-same { background: var(--line); }
+.sw-changed { background: var(--violet); }
+.sw-flag { background: var(--error); background-image: repeating-linear-gradient(45deg, transparent 0 2px, rgba(255,255,255,.55) 2px 4px); }
+figcaption { font-size: 0.9375rem; color: var(--slate); margin-top: var(--s2); }
+
+.charts { display: grid; gap: 0 var(--s12); }
+.charts > div { min-width: 0; }
+@media (min-width: 52rem) { .charts { grid-template-columns: 1fr 1fr; } }
+.bars { display: grid; gap: var(--s3); max-width: 40rem; }
+.bar-row { display: grid; grid-template-columns: 1fr 2.5rem; align-items: center; gap: var(--s1) var(--s3); font-size: 0.9375rem; }
+.bar-row .bar-track { grid-column: 1 / -1; grid-row: 2; }
+.bar-track { display: block; height: 1rem; background: var(--mist); border-radius: var(--r-pill); overflow: hidden; }
+.bar-fill { display: block; height: 100%; background: var(--violet); border-radius: var(--r-pill); }
+.bars.problems .bar-fill { background: var(--error); }
+.bar-row .n { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+
+.pairs { display: grid; gap: var(--s4); }
+.pair { min-width: 0; border: 1.5px solid var(--line); border-radius: var(--r-md); padding: var(--s4); background: #fff; }
+.pair.is-merged { border-color: var(--violet); background: var(--mist); }
+.pair.is-kept { background: var(--paper); }
+.pair .reason { margin: 0 0 var(--s3); color: var(--slate); font-size: 0.9375rem; }
+.pair table { table-layout: fixed; font-size: 0.875rem; }
+.pair th, .pair td { white-space: normal; overflow-wrap: anywhere; padding: var(--s2) var(--s3); }
+.pair thead th:first-child { width: 30%; }
+.pair th { overflow-wrap: normal; }
+.pair td.diff { background: var(--changed-bg); font-weight: 650; }
+.pair .outcome { font-weight: 650; margin: var(--s3) 0 0; }
+.kind { display: inline-block; font-size: 0.875rem; font-weight: 700; padding: 0 var(--s2); border-radius: var(--r-pill); background: var(--lav); margin-left: var(--s2); vertical-align: 0.1em; }
+
+.req-text { font-size: 0.9375rem; }
+@media (min-width: 40.01rem) { .req-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+@media (max-width: 40rem) {
+  .stack thead, .map-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .stack tr { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); }
+  .stack tr:last-child { border-bottom: 0; }
+  .stack td { display: block; padding: 0; border: 0; overflow-wrap: anywhere; }
+  .stack td::before { content: attr(data-label); display: block; font-size: 0.875rem; font-weight: 650; color: var(--slate); }
+  .stack td:nth-child(n+5) { grid-column: 1 / -1; }
+  .stack td:nth-child(1), .stack td:nth-child(2) { font-weight: 750; }
+  .stack td:nth-child(1)::before { content: "Row "; display: inline; font: inherit; color: inherit; }
+  .stack td:nth-child(2)::before { display: none; }
+  .stack td.num { white-space: normal; }
+  .stack-wrap.scroll, .map-wrap.scroll { overflow-x: visible; }
+  .map-table tr { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--s1) var(--s4); padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); }
+  .map-table tr:last-child { border-bottom: 0; }
+  .map-table th { grid-column: 1 / -1; background: none; padding: 0; border: 0; white-space: normal; }
+  .map-table td { padding: 0; border: 0; }
+  .map-table td:last-child { grid-column: 1 / -1; font-size: 0.875rem; color: var(--slate); overflow-wrap: anywhere; }
+  .map-table td:last-child::before { content: "First value: "; }
+  .map-table select { width: 100%; }
+}
+
+.biz { margin-block: var(--s8); }
+.biz-box { max-width: 44rem; padding: var(--s6); background: var(--mist); border-radius: var(--r-md); }
+.biz-box h2 { font-size: 1.35rem; margin-bottom: var(--s2); }
+.biz-box p:last-child { margin-bottom: 0; }
+footer { border-top: 1px solid var(--line); padding-block: var(--s6) var(--s12); font-size: 0.9375rem; color: var(--slate); }
+footer p { margin: 0 0 var(--s2); }
+
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+
+/* Website check additions */
+.intro-short { padding-bottom: 0; }
+.intro-short + .step { border-top: 0; padding-top: var(--s2); }
+.field { margin: 0 0 var(--s4); max-width: 34rem; }
+.field > label { display: block; font-weight: 700; margin-bottom: var(--s1); font-size: 0.9375rem; }
+.opt { font-weight: 500; color: var(--slate); }
+.field input { width: 100%; font: inherit; font-size: 1rem; min-height: 3rem; padding: var(--s2) var(--s3); border: 1.5px solid var(--slate); border-radius: var(--r-md); background: #fff; color: var(--ink); }
+.field input[aria-invalid="true"] { border-color: var(--error); border-width: 2px; }
+.err { display: block; color: var(--error); font-weight: 650; font-size: 0.875rem; margin-top: var(--s1); }
+.err:empty { display: none; }
+.progress { max-width: 34rem; margin: var(--s4) 0 0; padding: var(--s3) var(--s4); border-radius: var(--r-md); background: var(--mist); font-weight: 650; }
+.err-box { max-width: 34rem; margin: var(--s4) 0 0; padding: var(--s4); border: 2px solid var(--error); border-radius: var(--r-md); background: var(--error-bg); }
+.err-box p { margin: 0; font-weight: 650; color: var(--error); }
+.report { max-width: 44rem; }
+.r-head { margin: 0 0 var(--s4); }
+.r-head h3 { margin: 0 0 var(--s1); font-size: 1.3rem; overflow-wrap: anywhere; }
+.r-head p { margin: 0; color: var(--slate); font-size: 0.9375rem; }
+.sample-flag { display: inline-block; margin: 0 0 var(--s2); padding: 0 var(--s2); border-radius: var(--r-md); background: var(--lav); color: var(--ink); font-weight: 750; font-size: 0.875rem; }
+.scores { list-style: none; margin: 0 0 var(--s6); padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
+@media (min-width: 48rem) { .scores { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.scores li { padding: var(--s3); border: 1.5px solid var(--line); border-radius: var(--r-md); background: #fff; display: grid; gap: var(--s1); align-content: start; }
+@supports (grid-template-rows: subgrid) { .scores li { grid-row: span 3; grid-template-rows: subgrid; } .scores .lbl { min-height: 0; } }
+.scores .lbl { font-size: 0.875rem; font-weight: 650; color: var(--slate); min-height: 3em; line-height: 1.5; }
+.scores .num { font-size: 1.6rem; font-weight: 850; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.scores .bnd { font-size: 0.875rem; font-weight: 750; }
+.scores .b-good { color: #2E6B3A; } .scores .b-needs { color: #8A6A12; } .scores .b-poor { color: var(--error); } .scores .b-none { color: var(--slate); }
+.top { list-style: none; margin: 0 0 var(--s6); padding: 0; display: grid; gap: var(--s3); counter-reset: top; }
+.top li { padding: var(--s4); border: 2px solid var(--violet); border-radius: var(--r-md); background: #fff; }
+.top h4 { margin: 0 0 var(--s2); font-size: 1.05rem; }
+.top p, .all p { margin: 0 0 var(--s1); }
+.top .detail, .all .detail { font-size: 0.875rem; color: var(--slate); }
+.fix { font-weight: 650; }
+.all { margin: 0 0 var(--s6); }
+.all h4 { margin: var(--s4) 0 var(--s2); font-size: 1rem; }
+.all ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.all li { padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--r-md); background: #fff; }
+.all li strong { display: block; }
+.note { font-size: 0.9375rem; color: var(--slate); max-width: 44rem; }
+.signoff { margin: var(--s6) 0 0; padding: var(--s4); border-radius: var(--r-md); background: var(--mist); max-width: 44rem; }
+.signoff p { margin: 0 0 var(--s2); } .signoff p:last-child { margin: 0; }
+@media print {
+  @page { margin: 14mm; }
+  body { background: #fff !important; padding: 0 !important; font-size: 10.5pt; }
+  .topbar, footer, .intro, #step-check, .no-print, .step-head, .biz { display: none !important; }
+  #step-report { border: 0 !important; padding: 0 !important; margin: 0 !important; }
+  main, .step { margin: 0 !important; padding: 0 !important; }
+  .wrap { max-width: none !important; padding: 0 !important; }
+  .scores { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .top li, .all li, .scores li { break-inside: avoid; }
+  .all h4, .report > h4 { break-after: avoid; page-break-after: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="wordmark" href="https://casimbahadar.github.io/"><span class="mark" aria-hidden="true"></span>Casim Bahadar</a>
+    <span class="demo-flag">Free website check</span>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap intro intro-short">
+    <h1>Check how a website works on a phone</h1>
+    <p class="lede">Enter a web address and get a short report, in plain words, on what to fix first.</p>
+  </div>
+
+  <section class="wrap step" id="step-check" aria-labelledby="h-check">
+    <div class="step-head"><span class="step-num" aria-hidden="true">1</span><h2 id="h-check" tabindex="-1">Check a website</h2></div>
+    <div class="field"><label for="f-url">Web address</label><input type="text" id="f-url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="url" placeholder="example.com" aria-describedby="e-url"><span class="err" id="e-url"></span></div>
+    <div class="field"><label for="f-name">Business name for the report <span class="opt">(optional)</span></label><input type="text" id="f-name" autocomplete="organization"></div>
+    <div class="actions" style="max-width: 34rem">
+      <button class="btn btn-primary" id="btn-check" type="button">Check this website</button>
+      <button class="btn btn-quiet" id="btn-sample" type="button">See a sample report</button>
+    </div>
+    <p class="progress" id="progress" role="status" hidden></p>
+    <div class="err-box" id="err-box" role="alert" hidden><p id="err-text"></p></div>
+    <div class="privacy" style="max-width: 34rem"><p><strong>How it works.</strong> The address you enter is sent to Google's free PageSpeed Insights service, which loads that page the way a phone on a mobile connection would. Nothing else is sent, and nothing is saved. The sample report is for a made-up bakery.</p></div>
+  </section>
+
+  <section class="wrap step" id="step-report" aria-labelledby="h-report" hidden>
+    <div class="step-head"><span class="step-num" aria-hidden="true">2</span><h2 id="h-report" tabindex="-1">The report</h2></div>
+    <div class="report" id="report"></div>
+    <div class="actions no-print">
+      <button class="btn btn-primary" id="btn-print" type="button">Print or save as PDF</button>
+      <button class="btn btn-quiet" id="btn-copy" type="button">Copy a summary</button>
+    </div>
+    <p class="small muted no-print" id="copy-note" role="status"></p>
+    <p class="small muted no-print">On an iPhone, saving as a PDF is Share, then Print, then Save to Files.</p>
+    <div class="actions no-print"><button class="btn btn-quiet" id="btn-again" type="button">Check another website</button></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Built by Casim Bahadar, Phoenix Applications &amp; Automations, Kitchener-Waterloo, Ontario.</p>
+    <p><a href="https://casimbahadar.github.io/work.html">See more work</a> or <a href="https://casimbahadar.github.io/contact.html">get in touch</a>.</p>
+  </div>
+</footer>
+<p class="sr-only" id="announce" aria-live="polite"></p>
+<script>/* CORE-START: pure functions, no page access. Tests extract this block from the shipped index.html. */
+const Check = (() => {
+  const ENDPOINT = "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed";
+  const CATS = [
+    { id: "performance", api: "PERFORMANCE", label: "Speed on a phone" },
+    { id: "accessibility", api: "ACCESSIBILITY", label: "Easy for everyone to use" },
+    { id: "seo", api: "SEO", label: "Search engine basics" },
+    { id: "best-practices", api: "BEST_PRACTICES", label: "Built to current standards" }
+  ];
+  const band = s => s === null ? "couldn't be measured" : s >= 90 ? "good" : s >= 50 ? "needs work" : "poor";
+
+  // Plain-language versions of the checks that matter most to a small business.
+  // impact: 3 = fix first, 2 = worth fixing, 1 = minor. Several check ids can share one topic.
+  const TOPICS = [
+    { ids: ["viewport", "viewport-insight"], cat: "seo", impact: 3, title: "The site isn't set up for phones",
+      why: "Phones show a shrunken desktop page, so visitors have to pinch and zoom to read anything.",
+      fix: "Add the mobile viewport setting and a layout that fits a phone screen." },
+    { ids: ["font-size"], cat: "seo", impact: 3, title: "Text is too small to read on a phone",
+      why: "Visitors squint, zoom or give up, and most of them are on phones.",
+      fix: "Use body text of at least 16 pixels." },
+    { ids: ["color-contrast"], cat: "accessibility", impact: 3, title: "Some text is too faint to read",
+      why: "Pale text on a light background is hard to read outdoors, on older screens and for anyone with weaker eyesight.",
+      fix: "Darken the text or the background until it meets the WCAG AA contrast guideline." },
+    { ids: ["target-size", "tap-targets"], cat: "accessibility", impact: 3, title: "Buttons and links are too small or too close together to tap",
+      why: "People tap the wrong thing, or can't tap the one they want.",
+      fix: "Make buttons and links bigger and leave space between them." },
+    { ids: ["largest-contentful-paint", "largest-contentful-paint-element", "lcp-discovery-insight", "lcp-phases-insight"], cat: "performance", impact: 3, title: "The main content takes too long to appear",
+      why: "On a phone connection, visitors see a mostly empty page for a while, and many leave before it finishes.",
+      fix: "Shrink and compress the biggest images, and load the main image first." },
+    { ids: ["is-on-https", "redirects-http"], cat: "best-practices", impact: 3, title: "The site isn't fully secure (HTTPS)",
+      why: "Browsers label pages \u201cNot secure\u201d, which puts people off, especially on forms.",
+      fix: "Turn on HTTPS for the whole site and send all visitors to the secure address." },
+    { ids: ["document-title"], cat: "seo", impact: 3, title: "The page has no title",
+      why: "The title is what shows as the link in Google results and on the browser tab.",
+      fix: "Add a title with the business name and what you do, like \u201cMaple Street Bakery, fresh bread in Waterloo\u201d." },
+    { ids: ["http-status-code"], cat: "seo", impact: 3, title: "The page reports an error to search engines",
+      why: "Google may drop pages that return an error code from its results.",
+      fix: "Find out why the server reports an error for this page and fix it." },
+    { ids: ["is-crawlable"], cat: "seo", impact: 3, title: "Search engines are told not to list this page",
+      why: "The page is set up to stay out of Google results.",
+      fix: "Remove the \u201cnoindex\u201d setting if you want the page to be found." },
+    { ids: ["interactive", "total-blocking-time"], cat: "performance", impact: 2, title: "The page is slow to respond to taps",
+      why: "Taps and scrolling feel stuck while the page is still busy loading.",
+      fix: "Load less code at the start, and delay anything that isn't needed straight away." },
+    { ids: ["first-contentful-paint", "speed-index"], cat: "performance", impact: 2, title: "The page is slow to show anything",
+      why: "A blank screen makes people think the site is broken.",
+      fix: "Cut down what has to load before the first text appears." },
+    { ids: ["cumulative-layout-shift", "layout-shifts", "cls-culprits-insight"], cat: "performance", impact: 2, title: "Things jump around while the page loads",
+      why: "People tap the wrong thing when buttons move under their finger.",
+      fix: "Give images and embeds a fixed size so the layout doesn't move." },
+    { ids: ["modern-image-formats", "uses-responsive-images", "uses-optimized-images", "offscreen-images", "image-delivery-insight", "efficient-animated-content"], cat: "performance", impact: 2, title: "Images are much bigger than they need to be",
+      why: "Big images make the page slow and use up visitors' mobile data.",
+      fix: "Resize images to the size they're shown, and save them as WebP or AVIF." },
+    { ids: ["image-alt"], cat: "accessibility", impact: 2, title: "Images have no text description",
+      why: "Screen readers can't describe them to blind visitors, and search engines can't tell what they show.",
+      fix: "Add a short description (alt text) to each image that matters." },
+    { ids: ["button-name"], cat: "accessibility", impact: 2, title: "A button has no label",
+      why: "Screen readers announce it only as \u201cbutton\u201d, so some visitors can't tell what it does.",
+      fix: "Give every button visible text or an accessible name." },
+    { ids: ["link-name"], cat: "accessibility", impact: 2, title: "A link has no readable text",
+      why: "Screen readers can't say where the link goes.",
+      fix: "Give every link text that says where it goes." },
+    { ids: ["label", "label-content-name-mismatch"], cat: "accessibility", impact: 2, title: "Form fields have no labels",
+      why: "Visitors using screen readers, and anyone who forgets what a field was for, can't tell what to type.",
+      fix: "Add a visible label to every form field." },
+    { ids: ["meta-description"], cat: "seo", impact: 2, title: "There's no description for search results",
+      why: "Google may show a random piece of the page under your link instead of a clear summary.",
+      fix: "Write a one- or two-sentence description of the page." },
+    { ids: ["errors-in-console"], cat: "best-practices", impact: 1, title: "The page has errors behind the scenes",
+      why: "Some part of the page may not work for some visitors.",
+      fix: "Have a developer check the browser's error log and fix what it reports." },
+    { ids: ["unsized-images"], cat: "performance", impact: 1, title: "Images have no set size",
+      why: "The page shifts as each image loads.",
+      fix: "Set a width and height on every image." },
+    { ids: ["uses-long-cache-ttl", "cache-insight"], cat: "performance", impact: 1, title: "Returning visitors download everything again",
+      why: "Repeat visits are slower than they need to be.",
+      fix: "Set caching rules on the server so browsers keep files for longer." },
+    { ids: ["render-blocking-resources", "render-blocking-insight"], cat: "performance", impact: 1, title: "Some files hold up the page before it can show",
+      why: "The page waits for files it doesn't need yet.",
+      fix: "Load those files later, or put the essential styles directly in the page." },
+    { ids: ["uses-text-compression", "document-latency-insight", "server-response-time"], cat: "performance", impact: 1, title: "The server is slow or doesn't compress files",
+      why: "Every visit takes longer to start.",
+      fix: "Turn on compression and check the hosting plan's speed." },
+    { ids: ["unminified-css", "unminified-javascript", "unused-css-rules", "unused-javascript", "legacy-javascript", "legacy-javascript-insight", "duplicated-javascript", "duplicated-javascript-insight"], cat: "performance", impact: 1, title: "The page loads code it doesn't need",
+      why: "Extra code makes the page slower on phones.",
+      fix: "Remove unused code and compress what's left." },
+    { ids: ["font-display", "font-display-insight"], cat: "performance", impact: 1, title: "Text is hidden while fonts load",
+      why: "Visitors see blank spaces where words should be.",
+      fix: "Show a backup font straight away while the main font loads." },
+    { ids: ["html-has-lang", "html-lang-valid"], cat: "accessibility", impact: 1, title: "The page doesn't say what language it's in",
+      why: "Screen readers may read it with the wrong pronunciation.",
+      fix: "Set the page language in the page's code." },
+    { ids: ["heading-order"], cat: "accessibility", impact: 1, title: "Headings skip levels",
+      why: "People who navigate by headings can lose their place.",
+      fix: "Use headings in order, without skipping levels." },
+    { ids: ["link-text"], cat: "seo", impact: 1, title: "Some links just say things like \u201cclick here\u201d",
+      why: "Search engines and screen readers can't tell where those links go.",
+      fix: "Use link text that describes where the link goes." },
+    { ids: ["crawlable-anchors", "robots-txt", "canonical", "hreflang"], cat: "seo", impact: 1, title: "Some search engine settings need attention",
+      why: "Search engines may miss pages or links.",
+      fix: "Have a developer check the robots.txt file, canonical links and link markup." },
+    { ids: ["doctype"], cat: "best-practices", impact: 1, title: "The page is missing a basic setup line (doctype)",
+      why: "Browsers may show it in an older, less predictable mode.",
+      fix: "Add <!DOCTYPE html> as the first line of the page." },
+    { ids: ["charset"], cat: "best-practices", impact: 1, title: "The page doesn't say how its text is encoded",
+      why: "Accents and symbols can show up as garbled characters.",
+      fix: "Declare UTF-8 at the top of the page." },
+    { ids: ["image-aspect-ratio", "image-size-responsive"], cat: "best-practices", impact: 1, title: "Some images look stretched or blurry",
+      why: "Blurry or squashed photos make a business look less professional.",
+      fix: "Use images at the right shape and a high enough resolution." },
+    { ids: ["geolocation-on-start", "notification-on-start"], cat: "best-practices", impact: 1, title: "The page asks for permissions straight away",
+      why: "Pop-ups asking for location or notifications on arrival put people off.",
+      fix: "Only ask when the visitor does something that needs it." }
+  ];
+  const TOPIC_OF = {};
+  TOPICS.forEach((t, i) => t.ids.forEach(id => { TOPIC_OF[id] = i; }));
+  const plainText = s => String(s || "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/`([^`]*)`/g, "$1").replace(/\s+/g, " ").trim();
+  // Google's wording, made plain: "Est savings of 448 KiB" -> "could save about 448 KB", "9.4 s" -> "about 9.4 seconds".
+  function prettyDetail(d) {
+    let v = plainText(d).replace(/\u00a0/g, " ");
+    if (!v) return "";
+    v = v.replace(/^Est(imated)? savings of /i, "could save about ").replace(/\bKiB\b/g, "KB").replace(/\bMiB\b/g, "MB");
+    v = v.replace(/^([\d.,]+) s$/, (m, n) => "about " + n + (n === "1" ? " second" : " seconds")).replace(/\b([\d,]+) ms\b/, (m, n) => n + " milliseconds");
+    return v;
+  }
+  const failing = a => a && typeof a.score === "number" && a.score < 0.9 && ["binary", "numeric", "metricSavings"].includes(a.scoreDisplayMode);
+
+  // ---- web address check, before anything is sent
+  function normalizeUrl(input) {
+    let v = String(input || "").trim();
+    if (!v) return { ok: false, message: "Enter a web address, like example.com." };
+    if (v.length > 2048) return { ok: false, message: "That address is too long." };
+    if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = "https://" + v;
+    let u;
+    try { u = new URL(v); } catch (e) { return { ok: false, message: "That doesn't look like a web address. Check for spaces or typos." }; }
+    if (!/^https?:$/.test(u.protocol)) return { ok: false, message: "Only web pages (http or https addresses) can be checked." };
+    const h = u.hostname.toLowerCase();
+    if (!h.includes(".") || /^(localhost|127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h) || h.endsWith(".local") || h.endsWith(".internal"))
+      return { ok: false, message: "Enter a public web address. The checker can't reach private or local addresses." };
+    if (u.username || u.password) return { ok: false, message: "Leave out any username or password in the address." };
+    u.hash = "";
+    return { ok: true, url: u.toString(), host: h.replace(/^www\./, "") };
+  }
+  function requestUrl(url, key) {
+    const u = new URL(ENDPOINT);
+    u.searchParams.set("url", url);
+    u.searchParams.set("strategy", "MOBILE");
+    u.searchParams.set("locale", "en");
+    for (const c of CATS) u.searchParams.append("category", c.api);
+    if (key) u.searchParams.set("key", key);
+    return u.toString();
+  }
+
+  // ---- errors, from the API or from the checker itself, in plain words
+  const RUNTIME = {
+    DNS_FAILURE: "That web address doesn't seem to exist. Check the spelling.",
+    FAILED_DOCUMENT_REQUEST: "The checker couldn't load that page. The site may be down, or it may block automated checks. Try opening it in your own browser first.",
+    ERRORED_DOCUMENT_REQUEST: "The checker couldn't load that page. The site may be down, or it may block automated checks. Try opening it in your own browser first.",
+    CHROME_INTERSTITIAL_ERROR: "The page showed an error or a security warning instead of loading. Try opening it in your own browser first.",
+    INSECURE_DOCUMENT_REQUEST: "The page has a security certificate problem, so the checker couldn't load it safely.",
+    NOT_HTML: "That address is a file, not a web page.",
+    NO_FCP: "The page loaded but never showed anything the checker could measure. It may need a login, or it may be blank.",
+    PAGE_HUNG: "The page never finished loading, so the checker gave up."
+  };
+  function explainError(status, body) {
+    const err = body && body.error ? body.error : {};
+    const msg = String(err.message || "");
+    const reasons = (err.errors || []).map(e => e.reason || "").join(" ");
+    for (const code of Object.keys(RUNTIME)) if (msg.includes(code)) return { code: code.toLowerCase(), message: RUNTIME[code] };
+    if (status === 429 || /rateLimitExceeded|dailyLimitExceeded|quota/i.test(reasons + " " + msg)) return { code: "quota", message: "The checker has used up its checks for today. Try again tomorrow." };
+    if (status === 403 || /keyInvalid|API key|forbidden/i.test(reasons + " " + msg)) return { code: "key", message: "The checker isn't set up correctly: Google refused its access key. Please tell Casim." };
+    if (status === 400) return { code: "bad_url", message: "Google couldn't check that address. Check that it's a public web page." };
+    if (status >= 500) return { code: "server", message: "Google's checker had a problem. Try again in a minute." };
+    return { code: "unknown", message: "The check didn't work. Try again in a minute." };
+  }
+
+  // ---- the report
+  function build(lhr) {
+    if (!lhr || typeof lhr !== "object") return { error: { code: "unknown", message: "The checker sent back an empty result. Try again in a minute." } };
+    if (lhr.runtimeError && lhr.runtimeError.code && lhr.runtimeError.code !== "NO_ERROR")
+      return { error: { code: String(lhr.runtimeError.code).toLowerCase(), message: RUNTIME[lhr.runtimeError.code] || "The checker couldn't finish testing that page. Try again in a minute." } };
+    const audits = lhr.audits || {}, cats = lhr.categories || {};
+    const scores = CATS.map(c => {
+      const s = cats[c.id] && typeof cats[c.id].score === "number" ? Math.round(cats[c.id].score * 100) : null;
+      return { id: c.id, label: c.label, score: s, band: band(s) };
+    });
+    const weightOf = {};
+    for (const c of CATS) for (const r of ((cats[c.id] || {}).auditRefs || [])) weightOf[r.id] = { weight: r.weight || 0, group: r.group || "", cat: c.id };
+    const byTopic = new Map(), other = [];
+    for (const [id, a] of Object.entries(audits)) {
+      if (!failing(a)) continue;
+      const t = TOPIC_OF[id];
+      if (t !== undefined) {
+        const cur = byTopic.get(t);
+        const detail = prettyDetail(a.displayValue);
+        if (!cur) byTopic.set(t, { topic: t, score: a.score, detail, ids: [id] });
+        else { cur.score = Math.min(cur.score, a.score); cur.ids.push(id); if (!cur.detail && detail) cur.detail = detail; }
+      } else {
+        const w = weightOf[id];
+        if (!w || w.weight <= 0 || w.group === "hidden") continue;
+        other.push({ id, cat: w.cat, impact: w.weight >= 5 ? 2 : 1, title: plainText(a.title), why: plainText(a.description).replace(/ Learn more.*$/i, ""), fix: "", detail: prettyDetail(a.displayValue), score: a.score, rank: 999 });
+      }
+    }
+    const findings = [...byTopic.values()].map(f => {
+      const t = TOPICS[f.topic];
+      return { id: t.ids[0], ids: f.ids, cat: t.cat, impact: t.impact, title: t.title, why: t.why, fix: t.fix, detail: f.detail, score: f.score, rank: f.topic };
+    }).concat(other);
+    const order = { performance: 0, accessibility: 1, seo: 2, "best-practices": 3 };
+    // Most serious first. Within a level, the curated order of TOPICS decides (the phone setup comes before the problems it causes).
+    findings.sort((a, b) => b.impact - a.impact || a.rank - b.rank || a.score - b.score || order[a.cat] - order[b.cat] || a.title.localeCompare(b.title));
+    const counted = Object.values(audits).filter(a => a && typeof a.score === "number" && ["binary", "numeric", "metricSavings"].includes(a.scoreDisplayMode));
+    return {
+      finalUrl: String(lhr.finalDisplayedUrl || lhr.finalUrl || lhr.requestedUrl || ""),
+      fetchTime: String(lhr.fetchTime || ""),
+      lighthouse: String(lhr.lighthouseVersion || ""),
+      scores, top: findings.slice(0, 3), findings,
+      passed: counted.filter(a => a.score >= 0.9).length
+    };
+  }
+
+  // ---- the summary to paste into an email
+  function summary(r, opts) {
+    const o = opts || {};
+    const who = o.name || o.host || "your website";
+    const lines = ["Website check for " + who + (o.date ? " (" + o.date + ")" : ""), "", "Checked as a phone on a mobile connection, using Google's free PageSpeed Insights.", ""];
+    for (const s of r.scores) lines.push(s.label + ": " + (s.score === null ? "couldn't be measured" : s.score + " out of 100, " + s.band));
+    if (r.top.length) {
+      lines.push("", "The three things I'd fix first:");
+      r.top.forEach((f, i) => lines.push((i + 1) + ". " + f.title + (f.detail ? " (" + f.detail + ")" : "") + ". " + f.why + (f.fix ? " What to do: " + f.fix : "")));
+    } else lines.push("", "No major problems found. Nice work.");
+    lines.push("", "Automated checks catch many problems, but not all, and results vary a little between runs.");
+    if (o.link) lines.push("Check any site yourself: " + o.link);
+    if (o.signature) lines.push("", o.signature);
+    return lines.join("\n");
+  }
+
+  return { prettyDetail, ENDPOINT, CATS, TOPICS, band, normalizeUrl, requestUrl, explainError, build, summary, plainText };
+})();
+/* CORE-END */
+
+const PSI_KEY = "";
+const SAMPLE = {"lighthouseVersion":"12.8.2","fetchTime":"2026-10-16T22:10:54.159Z","finalDisplayedUrl":"https://maplestreetbakery.example/","categories":{"performance":{"score":0.75,"auditRefs":[{"id":"first-contentful-paint","weight":10,"group":"metrics"},{"id":"largest-contentful-paint","weight":25,"group":"metrics"},{"id":"total-blocking-time","weight":30,"group":"metrics"},{"id":"cumulative-layout-shift","weight":25,"group":"metrics"},{"id":"speed-index","weight":10,"group":"metrics"},{"id":"cache-insight","weight":0,"group":"hidden"},{"id":"cls-culprits-insight","weight":0,"group":"hidden"},{"id":"document-latency-insight","weight":0,"group":"hidden"},{"id":"dom-size-insight","weight":0,"group":"hidden"},{"id":"duplicated-javascript-insight","weight":0,"group":"hidden"},{"id":"font-display-insight","weight":0,"group":"hidden"},{"id":"forced-reflow-insight","weight":0,"group":"hidden"},{"id":"image-delivery-insight","weight":0,"group":"hidden"},{"id":"inp-breakdown-insight","weight":0,"group":"hidden"},{"id":"lcp-breakdown-insight","weight":0,"group":"hidden"},{"id":"lcp-discovery-insight","weight":0,"group":"hidden"},{"id":"legacy-javascript-insight","weight":0,"group":"hidden"},{"id":"modern-http-insight","weight":0,"group":"hidden"},{"id":"network-dependency-tree-insight","weight":0,"group":"hidden"},{"id":"render-blocking-insight","weight":0,"group":"hidden"},{"id":"third-parties-insight","weight":0,"group":"hidden"},{"id":"viewport-insight","weight":0,"group":"hidden"},{"id":"interactive","weight":0,"group":"hidden"},{"id":"max-potential-fid","weight":0,"group":"hidden"},{"id":"first-meaningful-paint","weight":0,"group":"hidden"},{"id":"render-blocking-resources","weight":0,"group":"diagnostics"},{"id":"uses-responsive-images","weight":0,"group":"diagnostics"},{"id":"offscreen-images","weight":0,"group":"diagnostics"},{"id":"unminified-css","weight":0,"group":"diagnostics"},{"id":"unminified-javascript","weight":0,"group":"diagnostics"},{"id":"unused-css-rules","weight":0,"group":"diagnostics"},{"id":"unused-javascript","weight":0,"group":"diagnostics"},{"id":"uses-optimized-images","weight":0,"group":"diagnostics"},{"id":"modern-image-formats","weight":0,"group":"diagnostics"},{"id":"uses-text-compression","weight":0,"group":"diagnostics"},{"id":"uses-rel-preconnect","weight":0,"group":"diagnostics"},{"id":"server-response-time","weight":0,"group":"diagnostics"},{"id":"redirects","weight":0,"group":"diagnostics"},{"id":"uses-http2","weight":0,"group":"diagnostics"},{"id":"efficient-animated-content","weight":0,"group":"diagnostics"},{"id":"duplicated-javascript","weight":0,"group":"diagnostics"},{"id":"legacy-javascript","weight":0,"group":"diagnostics"},{"id":"prioritize-lcp-image","weight":0,"group":"diagnostics"},{"id":"total-byte-weight","weight":0,"group":"diagnostics"},{"id":"uses-long-cache-ttl","weight":0,"group":"diagnostics"},{"id":"dom-size","weight":0,"group":"diagnostics"},{"id":"critical-request-chains","weight":0,"group":"diagnostics"},{"id":"user-timings","weight":0,"group":"diagnostics"},{"id":"bootup-time","weight":0,"group":"diagnostics"},{"id":"mainthread-work-breakdown","weight":0,"group":"diagnostics"},{"id":"font-display","weight":0,"group":"diagnostics"},{"id":"third-party-summary","weight":0,"group":"diagnostics"},{"id":"third-party-facades","weight":0,"group":"diagnostics"},{"id":"largest-contentful-paint-element","weight":0,"group":"diagnostics"},{"id":"lcp-lazy-loaded","weight":0,"group":"diagnostics"},{"id":"layout-shifts","weight":0,"group":"diagnostics"},{"id":"uses-passive-event-listeners","weight":0,"group":"diagnostics"},{"id":"no-document-write","weight":0,"group":"diagnostics"},{"id":"long-tasks","weight":0,"group":"diagnostics"},{"id":"non-composited-animations","weight":0,"group":"diagnostics"},{"id":"unsized-images","weight":0,"group":"diagnostics"},{"id":"viewport","weight":0,"group":"diagnostics"},{"id":"bf-cache","weight":0,"group":"diagnostics"},{"id":"network-requests","weight":0,"group":"hidden"},{"id":"network-rtt","weight":0,"group":"hidden"},{"id":"network-server-latency","weight":0,"group":"hidden"},{"id":"main-thread-tasks","weight":0,"group":"hidden"},{"id":"diagnostics","weight":0,"group":"hidden"},{"id":"metrics","weight":0,"group":"hidden"},{"id":"screenshot-thumbnails","weight":0,"group":"hidden"},{"id":"final-screenshot","weight":0,"group":"hidden"},{"id":"script-treemap-data","weight":0,"group":"hidden"},{"id":"resource-summary","weight":0,"group":"hidden"}]},"accessibility":{"score":0.24,"auditRefs":[{"id":"accesskeys","weight":0,"group":"a11y-navigation"},{"id":"aria-allowed-attr","weight":0,"group":"a11y-aria"},{"id":"aria-allowed-role","weight":0,"group":"a11y-aria"},{"id":"aria-command-name","weight":0,"group":"a11y-aria"},{"id":"aria-conditional-attr","weight":0,"group":"a11y-aria"},{"id":"aria-deprecated-role","weight":0,"group":"a11y-aria"},{"id":"aria-dialog-name","weight":0,"group":"a11y-aria"},{"id":"aria-hidden-body","weight":10,"group":"a11y-aria"},{"id":"aria-hidden-focus","weight":0,"group":"a11y-aria"},{"id":"aria-input-field-name","weight":0,"group":"a11y-aria"},{"id":"aria-meter-name","weight":0,"group":"a11y-aria"},{"id":"aria-progressbar-name","weight":0,"group":"a11y-aria"},{"id":"aria-prohibited-attr","weight":0,"group":"a11y-aria"},{"id":"aria-required-attr","weight":0,"group":"a11y-aria"},{"id":"aria-required-children","weight":0,"group":"a11y-aria"},{"id":"aria-required-parent","weight":0,"group":"a11y-aria"},{"id":"aria-roles","weight":0,"group":"a11y-aria"},{"id":"aria-text","weight":0,"group":"a11y-aria"},{"id":"aria-toggle-field-name","weight":0,"group":"a11y-aria"},{"id":"aria-tooltip-name","weight":0,"group":"a11y-aria"},{"id":"aria-treeitem-name","weight":0,"group":"a11y-aria"},{"id":"aria-valid-attr-value","weight":0,"group":"a11y-aria"},{"id":"aria-valid-attr","weight":0,"group":"a11y-aria"},{"id":"button-name","weight":10,"group":"a11y-names-labels"},{"id":"bypass","weight":0,"group":"a11y-navigation"},{"id":"color-contrast","weight":7,"group":"a11y-color-contrast"},{"id":"definition-list","weight":0,"group":"a11y-tables-lists"},{"id":"dlitem","weight":0,"group":"a11y-tables-lists"},{"id":"document-title","weight":7,"group":"a11y-names-labels"},{"id":"duplicate-id-aria","weight":0,"group":"a11y-aria"},{"id":"form-field-multiple-labels","weight":0,"group":"a11y-names-labels"},{"id":"frame-title","weight":0,"group":"a11y-names-labels"},{"id":"heading-order","weight":3,"group":"a11y-navigation"},{"id":"html-has-lang","weight":7,"group":"a11y-language"},{"id":"html-lang-valid","weight":0,"group":"a11y-language"},{"id":"html-xml-lang-mismatch","weight":0,"group":"a11y-language"},{"id":"image-alt","weight":10,"group":"a11y-names-labels"},{"id":"image-redundant-alt","weight":1,"group":"a11y-names-labels"},{"id":"input-button-name","weight":0,"group":"a11y-names-labels"},{"id":"input-image-alt","weight":0,"group":"a11y-names-labels"},{"id":"label","weight":7,"group":"a11y-names-labels"},{"id":"link-in-text-block","weight":0,"group":"a11y-color-contrast"},{"id":"link-name","weight":7,"group":"a11y-names-labels"},{"id":"list","weight":0,"group":"a11y-tables-lists"},{"id":"listitem","weight":0,"group":"a11y-tables-lists"},{"id":"meta-refresh","weight":0,"group":"a11y-best-practices"},{"id":"meta-viewport","weight":0,"group":"a11y-best-practices"},{"id":"object-alt","weight":0,"group":"a11y-names-labels"},{"id":"select-name","weight":0,"group":"a11y-names-labels"},{"id":"skip-link","weight":0,"group":"a11y-names-labels"},{"id":"tabindex","weight":0,"group":"a11y-navigation"},{"id":"table-duplicate-name","weight":0,"group":"a11y-tables-lists"},{"id":"target-size","weight":7,"group":"a11y-best-practices"},{"id":"td-headers-attr","weight":0,"group":"a11y-tables-lists"},{"id":"th-has-data-cells","weight":0,"group":"a11y-tables-lists"},{"id":"valid-lang","weight":0,"group":"a11y-language"},{"id":"video-caption","weight":0,"group":"a11y-audio-video"},{"id":"focusable-controls","weight":0,"group":""},{"id":"interactive-element-affordance","weight":0,"group":""},{"id":"logical-tab-order","weight":0,"group":""},{"id":"visual-order-follows-dom","weight":0,"group":""},{"id":"focus-traps","weight":0,"group":""},{"id":"managed-focus","weight":0,"group":""},{"id":"use-landmarks","weight":0,"group":""},{"id":"offscreen-content-hidden","weight":0,"group":""},{"id":"custom-controls-labels","weight":0,"group":""},{"id":"custom-controls-roles","weight":0,"group":""},{"id":"empty-heading","weight":0,"group":"hidden"},{"id":"identical-links-same-purpose","weight":0,"group":"hidden"},{"id":"landmark-one-main","weight":0,"group":"hidden"},{"id":"label-content-name-mismatch","weight":0,"group":"hidden"},{"id":"table-fake-caption","weight":0,"group":"hidden"},{"id":"td-has-header","weight":0,"group":"hidden"}]},"best-practices":{"score":0.82,"auditRefs":[{"id":"is-on-https","weight":5,"group":"best-practices-trust-safety"},{"id":"redirects-http","weight":0,"group":"best-practices-trust-safety"},{"id":"geolocation-on-start","weight":1,"group":"best-practices-trust-safety"},{"id":"notification-on-start","weight":1,"group":"best-practices-trust-safety"},{"id":"csp-xss","weight":0,"group":"best-practices-trust-safety"},{"id":"has-hsts","weight":0,"group":"best-practices-trust-safety"},{"id":"origin-isolation","weight":0,"group":"best-practices-trust-safety"},{"id":"clickjacking-mitigation","weight":0,"group":"best-practices-trust-safety"},{"id":"trusted-types-xss","weight":0,"group":"best-practices-trust-safety"},{"id":"paste-preventing-inputs","weight":3,"group":"best-practices-ux"},{"id":"image-aspect-ratio","weight":1,"group":"best-practices-ux"},{"id":"image-size-responsive","weight":1,"group":"best-practices-ux"},{"id":"viewport","weight":1,"group":"best-practices-ux"},{"id":"font-size","weight":1,"group":"best-practices-ux"},{"id":"doctype","weight":1,"group":"best-practices-browser-compat"},{"id":"charset","weight":1,"group":"best-practices-browser-compat"},{"id":"js-libraries","weight":0,"group":"best-practices-general"},{"id":"deprecations","weight":5,"group":"best-practices-general"},{"id":"third-party-cookies","weight":5,"group":"best-practices-general"},{"id":"errors-in-console","weight":1,"group":"best-practices-general"},{"id":"valid-source-maps","weight":0,"group":"best-practices-general"},{"id":"inspector-issues","weight":1,"group":"best-practices-general"}]},"seo":{"score":0.73,"auditRefs":[{"id":"is-crawlable","weight":4.043478260869565,"group":"seo-crawl"},{"id":"document-title","weight":1,"group":"seo-content"},{"id":"meta-description","weight":1,"group":"seo-content"},{"id":"http-status-code","weight":1,"group":"seo-crawl"},{"id":"link-text","weight":1,"group":"seo-content"},{"id":"crawlable-anchors","weight":1,"group":"seo-crawl"},{"id":"robots-txt","weight":0,"group":"seo-crawl"},{"id":"image-alt","weight":1,"group":"seo-content"},{"id":"hreflang","weight":1,"group":"seo-content"},{"id":"canonical","weight":0,"group":"seo-content"},{"id":"structured-data","weight":0,"group":""}]}},"audits":{"is-on-https":{"id":"is-on-https","scoreDisplayMode":"binary","score":1},"viewport":{"id":"viewport","description":"A `<meta name=\"viewport\">` not only optimizes your app for mobile screen sizes, but also prevents [a 300 millisecond delay to user input](https://developer.chrome.com/blog/300ms-tap-delay-gone-away/). [Learn more about using the viewport meta tag](https://developer.chrome.com/docs/lighthouse/pwa/viewport/).","scoreDisplayMode":"metricSavings","title":"Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`","score":0},"first-contentful-paint":{"id":"first-contentful-paint","scoreDisplayMode":"numeric","score":1},"largest-contentful-paint":{"id":"largest-contentful-paint","description":"Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)","scoreDisplayMode":"numeric","title":"Largest Contentful Paint","score":0.01,"displayValue":"9.4 s"},"speed-index":{"id":"speed-index","scoreDisplayMode":"numeric","score":1},"total-blocking-time":{"id":"total-blocking-time","scoreDisplayMode":"numeric","score":1},"max-potential-fid":{"id":"max-potential-fid","scoreDisplayMode":"numeric","score":0.94},"cumulative-layout-shift":{"id":"cumulative-layout-shift","scoreDisplayMode":"numeric","score":1},"errors-in-console":{"id":"errors-in-console","description":"Errors logged to the console indicate unresolved problems. They can come from network request failures and other browser concerns. [Learn more about this errors in console diagnostic audit](https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/)","scoreDisplayMode":"binary","title":"Browser errors were logged to the console","score":0},"server-response-time":{"id":"server-response-time","scoreDisplayMode":"metricSavings","score":1},"interactive":{"id":"interactive","description":"Time to Interactive is the amount of time it takes for the page to become fully interactive. [Learn more about the Time to Interactive metric](https://developer.chrome.com/docs/lighthouse/performance/interactive/).","scoreDisplayMode":"numeric","title":"Time to Interactive","score":0.31,"displayValue":"9.4 s"},"redirects":{"id":"redirects","scoreDisplayMode":"metricSavings","score":1},"image-aspect-ratio":{"id":"image-aspect-ratio","scoreDisplayMode":"binary","score":1},"image-size-responsive":{"id":"image-size-responsive","scoreDisplayMode":"binary","score":1},"deprecations":{"id":"deprecations","scoreDisplayMode":"binary","score":1},"third-party-cookies":{"id":"third-party-cookies","scoreDisplayMode":"binary","score":1},"mainthread-work-breakdown":{"id":"mainthread-work-breakdown","scoreDisplayMode":"metricSavings","score":1},"bootup-time":{"id":"bootup-time","scoreDisplayMode":"metricSavings","score":1},"uses-rel-preconnect":{"id":"uses-rel-preconnect","scoreDisplayMode":"metricSavings","score":1},"font-display":{"id":"font-display","scoreDisplayMode":"metricSavings","score":1},"largest-contentful-paint-element":{"id":"largest-contentful-paint-element","description":"This is the largest contentful element painted within the viewport. [Learn more about the Largest Contentful Paint element](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)","scoreDisplayMode":"metricSavings","title":"Largest Contentful Paint element","score":0,"displayValue":"9,360 ms"},"lcp-lazy-loaded":{"id":"lcp-lazy-loaded","scoreDisplayMode":"metricSavings","score":1},"unsized-images":{"id":"unsized-images","description":"Set an explicit width and height on image elements to reduce layout shifts and improve CLS. [Learn how to set image dimensions](https://web.dev/articles/optimize-cls#images_without_dimensions)","scoreDisplayMode":"metricSavings","title":"Image elements do not have explicit `width` and `height`","score":0.5},"valid-source-maps":{"id":"valid-source-maps","scoreDisplayMode":"binary","score":1},"prioritize-lcp-image":{"id":"prioritize-lcp-image","scoreDisplayMode":"metricSavings","score":1},"aria-hidden-body":{"id":"aria-hidden-body","scoreDisplayMode":"binary","score":1},"button-name":{"id":"button-name","description":"When a button doesn't have an accessible name, screen readers announce it as \"button\", making it unusable for users who rely on screen readers. [Learn how to make buttons more accessible](https://dequeuniversity.com/rules/axe/4.10/button-name).","scoreDisplayMode":"binary","title":"Buttons do not have an accessible name","score":0},"color-contrast":{"id":"color-contrast","description":"Low-contrast text is difficult or impossible for many users to read. [Learn how to provide sufficient color contrast](https://dequeuniversity.com/rules/axe/4.10/color-contrast).","scoreDisplayMode":"binary","title":"Background and foreground colors do not have a sufficient contrast ratio.","score":0},"document-title":{"id":"document-title","description":"The title gives screen reader users an overview of the page, and search engine users rely on it heavily to determine if a page is relevant to their search. [Learn more about document titles](https://dequeuniversity.com/rules/axe/4.10/document-title).","scoreDisplayMode":"binary","title":"Document doesn't have a `<title>` element","score":0},"heading-order":{"id":"heading-order","description":"Properly ordered headings that do not skip levels convey the semantic structure of the page, making it easier to navigate and understand when using assistive technologies. [Learn more about heading order](https://dequeuniversity.com/rules/axe/4.10/heading-order).","scoreDisplayMode":"binary","title":"Heading elements are not in a sequentially-descending order","score":0},"html-has-lang":{"id":"html-has-lang","description":"If a page doesn't specify a `lang` attribute, a screen reader assumes that the page is in the default language that the user chose when setting up the screen reader. If the page isn't actually in the default language, then the screen reader might not announce the page's text correctly. [Learn more about the `lang` attribute](https://dequeuniversity.com/rules/axe/4.10/html-has-lang).","scoreDisplayMode":"binary","title":"`<html>` element does not have a `[lang]` attribute","score":0},"image-alt":{"id":"image-alt","description":"Informative elements should aim for short, descriptive alternate text. Decorative elements can be ignored with an empty alt attribute. [Learn more about the `alt` attribute](https://dequeuniversity.com/rules/axe/4.10/image-alt).","scoreDisplayMode":"binary","title":"Image elements do not have `[alt]` attributes","score":0},"image-redundant-alt":{"id":"image-redundant-alt","scoreDisplayMode":"binary","score":1},"label":{"id":"label","scoreDisplayMode":"binary","score":1},"link-name":{"id":"link-name","description":"Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users. [Learn how to make links accessible](https://dequeuniversity.com/rules/axe/4.10/link-name).","scoreDisplayMode":"binary","title":"Links do not have a discernible name","score":0},"target-size":{"id":"target-size","description":"Touch targets with sufficient size and spacing help users who may have difficulty targeting small controls to activate the targets. [Learn more about touch targets](https://dequeuniversity.com/rules/axe/4.10/target-size).","scoreDisplayMode":"binary","title":"Touch targets do not have sufficient size or spacing.","score":0},"uses-long-cache-ttl":{"id":"uses-long-cache-ttl","description":"A long cache lifetime can speed up repeat visits to your page. [Learn more about efficient cache policies](https://developer.chrome.com/docs/lighthouse/performance/uses-long-cache-ttl/).","scoreDisplayMode":"metricSavings","title":"Serve static assets with an efficient cache policy","score":0.5,"displayValue":"1 resource found"},"total-byte-weight":{"id":"total-byte-weight","scoreDisplayMode":"metricSavings","score":1},"offscreen-images":{"id":"offscreen-images","scoreDisplayMode":"metricSavings","score":1},"render-blocking-resources":{"id":"render-blocking-resources","scoreDisplayMode":"metricSavings","score":1},"unminified-css":{"id":"unminified-css","scoreDisplayMode":"metricSavings","score":1},"unminified-javascript":{"id":"unminified-javascript","scoreDisplayMode":"metricSavings","score":1},"unused-css-rules":{"id":"unused-css-rules","scoreDisplayMode":"metricSavings","score":1},"unused-javascript":{"id":"unused-javascript","scoreDisplayMode":"metricSavings","score":1},"modern-image-formats":{"id":"modern-image-formats","description":"Image formats like WebP and AVIF often provide better compression than PNG or JPEG, which means faster downloads and less data consumption. [Learn more about modern image formats](https://developer.chrome.com/docs/lighthouse/performance/uses-webp-images/).","scoreDisplayMode":"metricSavings","title":"Serve images in next-gen formats","score":0,"displayValue":"Est savings of 448 KiB"},"uses-optimized-images":{"id":"uses-optimized-images","scoreDisplayMode":"metricSavings","score":1},"uses-text-compression":{"id":"uses-text-compression","scoreDisplayMode":"metricSavings","score":1},"uses-responsive-images":{"id":"uses-responsive-images","description":"Serve images that are appropriately-sized to save cellular data and improve load time. [Learn how to size images](https://developer.chrome.com/docs/lighthouse/performance/uses-responsive-images/).","scoreDisplayMode":"metricSavings","title":"Properly size images","score":0,"displayValue":"Est savings of 594 KiB"},"efficient-animated-content":{"id":"efficient-animated-content","scoreDisplayMode":"metricSavings","score":1},"duplicated-javascript":{"id":"duplicated-javascript","scoreDisplayMode":"metricSavings","score":1},"legacy-javascript":{"id":"legacy-javascript","scoreDisplayMode":"metricSavings","score":1},"doctype":{"id":"doctype","description":"Specifying a doctype prevents the browser from switching to quirks-mode. [Learn more about the doctype declaration](https://developer.chrome.com/docs/lighthouse/best-practices/doctype/).","scoreDisplayMode":"binary","title":"Page lacks the HTML doctype, thus triggering quirks-mode","score":0},"charset":{"id":"charset","description":"A character encoding declaration is required. It can be done with a `<meta>` tag in the first 1024 bytes of the HTML or in the Content-Type HTTP response header. [Learn more about declaring the character encoding](https://developer.chrome.com/docs/lighthouse/best-practices/charset/).","scoreDisplayMode":"binary","title":"Charset declaration is missing or occurs too late in the HTML","score":0},"dom-size":{"id":"dom-size","scoreDisplayMode":"metricSavings","score":1},"geolocation-on-start":{"id":"geolocation-on-start","scoreDisplayMode":"binary","score":1},"inspector-issues":{"id":"inspector-issues","scoreDisplayMode":"binary","score":1},"no-document-write":{"id":"no-document-write","scoreDisplayMode":"metricSavings","score":1},"notification-on-start":{"id":"notification-on-start","scoreDisplayMode":"binary","score":1},"paste-preventing-inputs":{"id":"paste-preventing-inputs","scoreDisplayMode":"binary","score":1},"uses-http2":{"id":"uses-http2","scoreDisplayMode":"metricSavings","score":1},"uses-passive-event-listeners":{"id":"uses-passive-event-listeners","scoreDisplayMode":"metricSavings","score":1},"meta-description":{"id":"meta-description","description":"Meta descriptions may be included in search results to concisely summarize page content. [Learn more about the meta description](https://developer.chrome.com/docs/lighthouse/seo/meta-description/).","scoreDisplayMode":"binary","title":"Document does not have a meta description","score":0},"http-status-code":{"id":"http-status-code","scoreDisplayMode":"binary","score":1},"font-size":{"id":"font-size","description":"Font sizes less than 12px are too small to be legible and require mobile visitors to “pinch to zoom” in order to read. Strive to have >60% of page text ≥12px. [Learn more about legible font sizes](https://developer.chrome.com/docs/lighthouse/seo/font-size/).","scoreDisplayMode":"binary","title":"Document doesn't use legible font sizes","score":0},"link-text":{"id":"link-text","scoreDisplayMode":"binary","score":1},"crawlable-anchors":{"id":"crawlable-anchors","scoreDisplayMode":"binary","score":1},"is-crawlable":{"id":"is-crawlable","scoreDisplayMode":"binary","score":1},"hreflang":{"id":"hreflang","scoreDisplayMode":"binary","score":1},"bf-cache":{"id":"bf-cache","scoreDisplayMode":"binary","score":1},"cache-insight":{"id":"cache-insight","description":"A long cache lifetime can speed up repeat visits to your page. [Learn more](https://web.dev/uses-long-cache-ttl/).","scoreDisplayMode":"metricSavings","title":"Use efficient cache lifetimes","score":0,"displayValue":"Est savings of 1,665 KiB"},"cls-culprits-insight":{"id":"cls-culprits-insight","scoreDisplayMode":"numeric","score":1},"document-latency-insight":{"id":"document-latency-insight","scoreDisplayMode":"metricSavings","score":1},"dom-size-insight":{"id":"dom-size-insight","scoreDisplayMode":"numeric","score":1},"duplicated-javascript-insight":{"id":"duplicated-javascript-insight","scoreDisplayMode":"metricSavings","score":1},"font-display-insight":{"id":"font-display-insight","scoreDisplayMode":"metricSavings","score":1},"forced-reflow-insight":{"id":"forced-reflow-insight","scoreDisplayMode":"numeric","score":1},"image-delivery-insight":{"id":"image-delivery-insight","description":"Reducing the download time of images can improve the perceived load time of the page and LCP. [Learn more about optimizing image size](https://developer.chrome.com/docs/lighthouse/performance/uses-optimized-images/)","scoreDisplayMode":"metricSavings","title":"Improve image delivery","score":0,"displayValue":"Est savings of 1,533 KiB"},"lcp-discovery-insight":{"id":"lcp-discovery-insight","description":"Optimize LCP by making the LCP image [discoverable](https://web.dev/articles/optimize-lcp#1_eliminate_resource_load_delay) from the HTML immediately, and [avoiding lazy-loading](https://web.dev/articles/lcp-lazy-loading)","scoreDisplayMode":"numeric","title":"LCP request discovery","score":0},"legacy-javascript-insight":{"id":"legacy-javascript-insight","scoreDisplayMode":"metricSavings","score":1},"modern-http-insight":{"id":"modern-http-insight","scoreDisplayMode":"metricSavings","score":1},"network-dependency-tree-insight":{"id":"network-dependency-tree-insight","scoreDisplayMode":"numeric","score":1},"render-blocking-insight":{"id":"render-blocking-insight","scoreDisplayMode":"metricSavings","score":1},"third-parties-insight":{"id":"third-parties-insight","scoreDisplayMode":"numeric","score":1},"viewport-insight":{"id":"viewport-insight","description":"Tap interactions may be [delayed by up to 300 ms](https://developer.chrome.com/blog/300ms-tap-delay-gone-away/) if the viewport is not optimized for mobile.","scoreDisplayMode":"metricSavings","title":"Optimize viewport for mobile","score":0.5}}};
+const SELF_URL = "https://casimbahadar.github.io/website-check/";
+
+(() => {
+  const $ = id => document.getElementById(id);
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "text") el.textContent = v; else if (k === "class") el.className = v; else el.setAttribute(k, v === true ? "" : String(v));
+    }
+    for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false) el.append(typeof kid === "string" ? document.createTextNode(kid) : kid);
+    return el;
+  }
+  const announce = t => { $("announce").textContent = ""; setTimeout(() => { $("announce").textContent = t; }, 30); };
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const longDate = d => MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+  const bandClass = b => b === "good" ? "b-good" : b === "needs work" ? "b-needs" : b === "poor" ? "b-poor" : "b-none";
+  let current = null;
+
+  function render(r, meta) {
+    current = { r, meta };
+    const parts = [];
+    if (meta.sample) parts.push(h("p", { class: "sample-flag", text: "Sample report for a made-up website" }));
+    parts.push(h("div", { class: "r-head" },
+      h("h3", { text: "Website check for " + (meta.name || meta.host) }),
+      h("p", { text: (meta.name ? meta.host + ". " : "") + "Checked " + meta.date + " as a phone on a mobile connection, using Google's free PageSpeed Insights" + (r.lighthouse ? " (Lighthouse " + r.lighthouse + ")" : "") + "." })));
+    parts.push(h("ul", { class: "scores", "aria-label": "Scores out of 100" }, ...r.scores.map(s => h("li", {},
+      h("span", { class: "lbl", text: s.label }),
+      h("span", { class: "num", text: s.score === null ? "No score" : String(s.score) }),
+      h("span", { class: "bnd " + bandClass(s.band), text: s.score === null ? "couldn't be measured" : s.band.charAt(0).toUpperCase() + s.band.slice(1) })))));
+    if (r.top.length) {
+      parts.push(h("h4", { text: "The three things to fix first", style: "margin: 0 0 var(--s3); font-size: 1.1rem" }));
+      parts.push(h("ol", { class: "top" }, ...r.top.map((f, i) => h("li", {},
+        h("h4", { text: (i + 1) + ". " + f.title }),
+        h("p", { text: f.why }),
+        f.fix ? h("p", { class: "fix", text: "What to do: " + f.fix }) : null,
+        f.detail ? h("p", { class: "detail", text: "Measured: " + f.detail }) : null))));
+    } else parts.push(h("p", { class: "top-none", text: "No major problems found. This site is in good shape on a phone." }));
+    const rest = r.findings.slice(3);
+    if (rest.length) {
+      const groups = Check.CATS.map(c => ({ c, items: rest.filter(f => f.cat === c.id) })).filter(g => g.items.length);
+      parts.push(h("div", { class: "all" }, h("h4", { text: "Everything else the check found", style: "font-size: 1.1rem; margin-top: 0" }),
+        ...groups.map(g => [h("h4", { text: g.c.label }), h("ul", {}, ...g.items.map(f => h("li", {},
+          h("strong", { text: f.title }), f.why ? h("p", { text: f.why }) : null, f.fix ? h("p", { class: "fix", text: "What to do: " + f.fix }) : null,
+          f.detail ? h("p", { class: "detail", text: "Measured: " + f.detail }) : null)))])));
+    }
+    parts.push(h("p", { class: "note", text: r.passed + " other checks passed. Automated checks catch many problems, but not all, and results vary a little from one run to the next, so treat the scores as a guide." }));
+    parts.push(h("div", { class: "signoff" },
+      h("p", {}, h("strong", { text: "Prepared by Casim Bahadar, Phoenix Applications & Automations." })),
+      h("p", { text: "I fix problems like these for small businesses in Kitchener-Waterloo and beyond." }),
+      h("p", {}, h("a", { href: "https://casimbahadar.github.io/contact.html", text: "Get in touch about your website" }), ". Check any site yourself at casimbahadar.github.io/website-check.")));
+    $("report").replaceChildren(...parts);
+    $("step-report").hidden = false; $("copy-note").textContent = "";
+    $("h-report").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    $("h-report").focus({ preventScroll: true });
+  }
+
+  // ---- checking a site
+  let controller = null, timer = null;
+  function busy(on) {
+    $("btn-check").disabled = on; $("btn-sample").disabled = on; $("progress").hidden = !on;
+    clearInterval(timer);
+    if (on) {
+      const t0 = Date.now();
+      const tick = () => { $("progress").textContent = "Checking the site. This usually takes under a minute. " + Math.round((Date.now() - t0) / 1000) + " seconds so far."; };
+      tick(); timer = setInterval(tick, 1000);
+    }
+  }
+  function showError(msg) { $("err-text").textContent = msg; $("err-box").hidden = false; }
+  $("f-url").addEventListener("input", () => { $("e-url").textContent = ""; $("f-url").removeAttribute("aria-invalid"); });
+  $("f-url").addEventListener("keydown", e => { if (e.key === "Enter") $("btn-check").click(); });
+  $("btn-check").addEventListener("click", async () => {
+    $("err-box").hidden = true;
+    const n = Check.normalizeUrl($("f-url").value);
+    if (!n.ok) { $("e-url").textContent = n.message; $("f-url").setAttribute("aria-invalid", "true"); $("f-url").focus(); return; }
+    controller = new AbortController();
+    const kill = setTimeout(() => controller.abort("timeout"), 120000);
+    busy(true);
+    let res, body = null;
+    try {
+      res = await fetch(Check.requestUrl(n.url, PSI_KEY), { signal: controller.signal });
+      try { body = await res.json(); } catch (e) { body = null; }
+    } catch (e) {
+      clearTimeout(kill); busy(false);
+      showError(controller.signal.reason === "timeout" ? "The check took more than two minutes, so it stopped. The site may be very slow. Try again later." : "Couldn't reach Google's checker. Check your internet connection and try again.");
+      return;
+    }
+    clearTimeout(kill); busy(false);
+    if (!res.ok) { showError(Check.explainError(res.status, body).message); return; }
+    const r = Check.build(body && body.lighthouseResult);
+    if (r.error) { showError(r.error.message); return; }
+    render(r, { host: Check.normalizeUrl(r.finalUrl || n.url).host || n.host, name: $("f-name").value.trim().slice(0, 120), date: longDate(new Date()), sample: false });
+    announce("Report ready.");
+  });
+  $("btn-sample").addEventListener("click", () => {
+    $("err-box").hidden = true;
+    render(Check.build(SAMPLE), { host: "maplestreetbakery.example", name: "Maple Street Bakery", date: longDate(new Date(SAMPLE.fetchTime)), sample: true });
+  });
+
+  // ---- after the report
+  $("btn-print").addEventListener("click", () => window.print());
+  $("btn-copy").addEventListener("click", async () => {
+    if (!current) return;
+    const text = Check.summary(current.r, { name: current.meta.name, host: current.meta.host, date: current.meta.date, link: SELF_URL, signature: "Casim Bahadar, Phoenix Applications & Automations\nhttps://casimbahadar.github.io/" });
+    try { await Promise.race([navigator.clipboard.writeText(text), new Promise((_, no) => setTimeout(() => no(new Error("timeout")), 1500))]); $("copy-note").textContent = "Summary copied. Paste it into an email or message."; }
+    catch (e) { $("copy-note").textContent = "Copying isn't allowed here. Use Print or save as PDF instead."; }
+  });
+  $("btn-again").addEventListener("click", () => {
+    $("step-report").hidden = true; current = null;
+    $("f-url").value = ""; $("f-name").value = "";
+    $("h-check").scrollIntoView({ block: "start" }); $("f-url").focus();
+  });
+})();
+</script>
+</body>
+</html>
